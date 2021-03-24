@@ -25,11 +25,11 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="handelProductChange('phone',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="phone-count" type="text" class="form-control text-center" value="1">
+                           <button  onclick="handelProductChange('phone',true)" class="btn btn-default"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5 id="phone-total">$1219</h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -43,12 +43,12 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="handelProductChange('case',false)" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="case-count" type="text" class="form-control text-center" value="1">
+                           <button onclick="handelProductChange('case',true)"  class="btn btn-default"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
+                        <h5 id="case-total">$59</h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -64,9 +64,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5 id="total-price">$1,278</h5>
+                        <h5 id="tax-amount">$0</h5>
+                        <h5 id="grand-total">$1,278</h5>
                      </div>
                   </div>
                </div>
@@ -76,7 +76,73 @@
             </div>
          </div>
       </div>
+      <script>
+         function handelProductChange(product,isIncrease){
+            const productInput =document.getElementById(product+'-count');
+            const productCount =parseInt(productInput.value);
+            let productNewInput=productCount;
+            if(isIncrease == true){
+               productNewInput = productCount + 1;
+            }
+            if(isIncrease == false && productCount>0){
+              productNewInput = productCount -1;
+            }
+            productInput.value = productNewInput;
+              // console.log()
+
+            let productTotal=0;
+            if(product == 'phone'){
+               productTotal= productNewInput *1219;
+               
+            }
+            if(product == 'case'){
+               productTotal= productNewInput * 59 ;
+            }
+            document.getElementById(product +"-total").innerText = '$' + productTotal;
+            calculatedTotall()
+         }
+         function calculatedTotall(){
+            const casePriceInput = document.getElementById('case-count');
+            casePrice =parseInt(casePriceInput.value);
+
+            const phonePriceInput = document.getElementById('phone-count');
+            phonePrice =parseInt(phonePriceInput.value);
+
+            const totalPrice = casePrice*59 + phonePrice*1219;
+            document.getElementById("total-price").innerText = '$' + totalPrice;
+            const tax =Math.round(totalPrice*.1); 
+            document.getElementById("tax-amount").innerText = '$' + tax;
+            const grandTotal =tax + totalPrice;
+            document.getElementById("grand-total").innerText = '$' + grandTotal;
+
+
+         }
+        
+
+      </script>
+    <!-----  <script>
+         document.getElementById("case-decrease").addEventListener("click" , function(){
+            const caseInput = document.getElementById('case-count');
+            const caseCount =parseInt(caseInput.value);
+            const caseNewCount =caseCount -1 ;
+            caseInput.value =caseNewCount ;
+            const caseTotal = caseNewCount*59;
+            document.getElementById("case-total").innerText = '$' + caseTotal;
+
+
+         })
+      </script>-->
    </section>
 </body>
 
 </html>
+
+
+
+<!------const casePriceInput = document.getElementById('case-total').innerText;
+casePrice =parseInt(casePriceInput)
+
+const phonePriceInput = document.getElementById('phone-total').innerText;
+phonePrice =parseInt(phonePriceInput);
+totalprice = casePrice + phonePrice;
+document.getElementById("total-price").innerText = '$' + totalprice;
